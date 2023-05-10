@@ -35,8 +35,8 @@ export default function TextForm(props) {
         var text = document.getElementById("myBox")
         text.select();
         navigator.clipboard.writeText(text.value);
+        document.getSelection().removeAllRanges();
         props.showAlert("Copied to Clipboard!","success");
-
     }
 
     const handleExtraSpace = () => {
@@ -58,21 +58,21 @@ export default function TextForm(props) {
                         color: props.mode === 'dark' ? 'black' : 'rgb(15 25 61)'
                     }} id="myBox" rows="10"></textarea>
                 </div>
-                <button className="btn btn-primary mx-1" onClick={handleUpClick}>Convert to Uppercase </button>
-                <button className="btn btn-primary mx-1" onClick={handleLowClick}>Convert to Lowercase </button>
-                <button className="btn btn-primary mx-1" onClick={handleClearClick}>Clear Screen</button>
-                <button className="btn btn-primary mx-1" onClick={handleCopy}>Copy Text</button>
-                <button className="btn btn-primary mx-1" onClick={handleExtraSpace}>Remove ExtraSpace</button>
+                
+                <button  disabled ={text.length===0} className="btn btn-primary mx-1 my-1" onClick={handleUpClick}>Convert to Uppercase </button>
+                <button  disabled ={text.length===0} className="btn btn-primary mx-1 my-1" onClick={handleLowClick}>Convert to Lowercase </button>
+                <button  disabled ={text.length===0} className="btn btn-primary mx-1 my-1" onClick={handleClearClick}>Clear Screen</button>
+                <button  disabled ={text.length===0} className="btn btn-primary mx-1 my-1" onClick={handleCopy}>Copy Text</button>
+                <button  disabled ={text.length===0} className="btn btn-primary mx-1 my-1" onClick={handleExtraSpace}>Remove ExtraSpace</button>
 
 
             </div>
             <div className="container my-3" style={{ color: props.mode === 'dark' ? 'white' : 'rgb(15 25 61)' }}>
                 <h2>Your text summary here</h2>
-                <p>{text.trim() === '' ? 0 : text.match(/\S+/g).length} Words and {text.replace(/\s+/g, '').length} Characters</p>
-                {/* <p>{text.split("").join('').length} Words and {text.length} Characters</p> */}
-                <p>{0.008 * text.split(" ").length} Minutes Read</p>
+                <p>{text.split(" ").filter((element)=>{return element.length!==0}).length} Words and {text.length} Characters</p>
+                <p>{0.008 * text.split(" ").filter((element)=>{return element.length!==0}).length} Minutes Read</p>
                 <h2>Preview Your Text</h2>
-                <p>{text.length > 0 ? text : "Enter something in the textbox above to preview it here"}</p>
+                <p>{text.length > 0 ? text : "Nothing to preview!"}</p>
 
             </div>
         </>
